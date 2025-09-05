@@ -1155,7 +1155,8 @@ static void JNICALL OnGetFrame2(JNIEnv *env, jobject obj,
     void *frame_buf, *data_buf;
     
     strm->frame_ts.u64 += strm->ts_inc;
-    if (!strm->vid_cb.capture_cb)
+    if (!strm->vid_cb.capture_cb) {
+        PJ_LOG(5,(THIS_FILE, "CAM NO CAPTURE CB"));
         return;
 
     if (strm->thread_initialized == 0 || !pj_thread_is_registered()) {
@@ -1365,6 +1366,8 @@ static void JNICALL OnGetFrame2(JNIEnv *env, jobject obj,
     }
 
     (*strm->vid_cb.capture_cb)(&strm->base, strm->user_data, &f);
+
+    PJ_LOG(5,(THIS_FILE, "CAM FRAME SENT"));
 }
 
 #else
