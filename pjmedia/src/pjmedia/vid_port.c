@@ -1231,11 +1231,15 @@ static pj_status_t vidstream_cap_cb(pjmedia_vid_dev_stream *stream,
      */
     copy_frame_to_buffer(vp, frame);
 
+
+    PJ_LOG(5,(THIS_FILE, "CAM STREAM GOT"));
     /* This is tricky since the frame is still in its original unconverted
      * format, which may not be what the application expects.
      */
-    if (vp->strm_cb.capture_cb)
+    if (vp->strm_cb.capture_cb) {
+        PJ_LOG(5,(THIS_FILE, "CAM STREAM SENT"));
         return (*vp->strm_cb.capture_cb)(stream, vp->strm_cb_data, frame);
+    }
     return PJ_SUCCESS;
 }
 
